@@ -12,8 +12,13 @@ function App() {
   const [status, setstatus] = useState('all');
   const [error, seterror] = useState(false);
   //useEffect
+  useEffect( () => {
+    getLocalTodos();
+  }, [])
+
   useEffect(() => {
     filterchange();
+    saveLovalTodos();
   }, [status, todoList])
   //Functions
   const filterchange = () => {
@@ -26,6 +31,19 @@ function App() {
     }
   }
 
+  // save to LocalStorage
+  const saveLovalTodos = () => {
+    localStorage.setItem('todos', JSON.stringify(todoList));
+  }
+
+  const getLocalTodos = () => {
+    if(localStorage.getItem('todos') == null){
+      localStorage.setItem('todos', JSON.stringify([]));
+    } else {
+      var localtodo = JSON.parse(localStorage.getItem('todos'));
+      settodoList(localtodo);
+    }
+  }
   //Return
   return (
     <div className="whole-wrapper">
